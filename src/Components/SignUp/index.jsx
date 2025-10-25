@@ -21,7 +21,7 @@ class SignUp extends Component {
   onSignUp = async (e) => {
     e.preventDefault();
     const { username, password, age, gender, no } = this.state;
-    const API_URL = import.meta.env.VITE_API_URL;
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
     try {
       const response = await axios.post(`${API_URL}/signup`, {
@@ -39,7 +39,13 @@ class SignUp extends Component {
       }
     } catch (error) {
       console.error("Signup failed:", error);
-      alert("Server error. Try again.");
+      if (error.code === 'ERR_NETWORK') {
+        alert("Cannot connect to server. Please check your connection.");
+      } else if (error.response?.status === 404) {
+        alert("Server endpoint not found. Please contact support.");
+      } else {
+        alert("Server error. Try again.");
+      }
     }
   };
 
