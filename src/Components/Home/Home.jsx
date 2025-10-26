@@ -14,7 +14,7 @@ class HomePage extends Component {
   submitForm = async (e) => {
     e.preventDefault();
     const { name, age, stclass } = this.state;
-    const API_URL = import.meta.env.VITE_API_URL;
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
     try {
       const response = await axios.post(`${API_URL}/`, {
@@ -30,7 +30,7 @@ class HomePage extends Component {
         alert("❌ Failed to submit student information");
       }
     } catch (error) {
-      console.error("Error submitting form:", error);
+      console.error("Error submitting form:", error.response?.data || error.message);
       alert("Server error while submitting");
     }
   };

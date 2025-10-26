@@ -38,7 +38,7 @@ class SignUp extends Component {
         alert(response.data || "Signup failed");
       }
     } catch (error) {
-      console.error("Signup failed:", error);
+      console.error("Signup failed:", error.response?.data || error.message);
       if (error.code === 'ERR_NETWORK') {
         alert("Cannot connect to server. Please check your connection.");
       } else if (error.response?.status === 404) {
